@@ -1,0 +1,8 @@
+com/upkdev/financetracker/dbtest/BaseDbTest.class
+com/upkdev/financetracker/dbtest/ods/ExpenseDaoTest.class
+com/upkdev/financetracker/dbtest/ods/MemberDaoTest.class
+com/upkdev/financetracker/dbtest/ref/ReferenceDataTest.class
+com/upkdev/financetracker/dbtest/ods/SavingsGoalDaoTest.class
+com/upkdev/financetracker/dbtest/views/DbViewsTest.class
+com/upkdev/financetracker/dbtest/schema/SchemaCreationTest.class
+com/upkdev/financetracker/dbtest/functions/DbFunctionsTest.class

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!-- ods.member -->
+    <changeSet id="v1.0-idx-001-ods-member-email"           author="upesh.karki">
+        <createIndex schemaName="ods" indexName="idx_member_email"           tableName="member" unique="true">
+            <column name="email"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="v1.0-idx-002-ods-member-username"        author="upesh.karki">
+        <createIndex schemaName="ods" indexName="idx_member_username"        tableName="member" unique="true">
+            <column name="username"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- ods.expense -->
+    <changeSet id="v1.0-idx-003-ods-expense-member"         author="upesh.karki">
+        <createIndex schemaName="ods" indexName="idx_expense_member_id"      tableName="expense">
+            <column name="member_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="v1.0-idx-004-ods-expense-member-cat"     author="upesh.karki">
+        <createIndex schemaName="ods" indexName="idx_expense_member_category" tableName="expense">
+            <column name="member_id"/>
+            <column name="category"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="v1.0-idx-005-ods-expense-member-date"    author="upesh.karki">
+        <createIndex schemaName="ods" indexName="idx_expense_member_date"    tableName="expense">
+            <column name="member_id"/>
+            <column name="expense_date"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- ods.savings_goal -->
+    <changeSet id="v1.0-idx-006-ods-savings-goal-member"    author="upesh.karki">
+        <createIndex schemaName="ods" indexName="idx_savings_goal_member_id" tableName="savings_goal">
+            <column name="member_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet id="v1.0-idx-007-ods-savings-goal-status"    author="upesh.karki">
+        <createIndex schemaName="ods" indexName="idx_savings_goal_status"    tableName="savings_goal">
+            <column name="member_id"/>
+            <column name="status"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- rpt.member_monthly_summary -->
+    <changeSet id="v1.0-idx-008-rpt-monthly-summary-member" author="upesh.karki">
+        <createIndex schemaName="rpt" indexName="idx_rpt_monthly_summary_member" tableName="member_monthly_summary">
+            <column name="member_id"/>
+            <column name="summary_year"/>
+            <column name="summary_month"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- rpt.savings_recommendation -->
+    <changeSet id="v1.0-idx-009-rpt-savings-rec-member"     author="upesh.karki">
+        <createIndex schemaName="rpt" indexName="idx_rpt_savings_rec_member"  tableName="savings_recommendation">
+            <column name="member_id"/>
+            <column name="generated_at"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

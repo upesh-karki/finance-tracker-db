@@ -1,0 +1,8 @@
+/home/linus/finance-tracker-db/db-test/src/test/java/com/upkdev/financetracker/dbtest/ref/ReferenceDataTest.java
+/home/linus/finance-tracker-db/db-test/src/test/java/com/upkdev/financetracker/dbtest/BaseDbTest.java
+/home/linus/finance-tracker-db/db-test/src/test/java/com/upkdev/financetracker/dbtest/schema/SchemaCreationTest.java
+/home/linus/finance-tracker-db/db-test/src/test/java/com/upkdev/financetracker/dbtest/ods/MemberDaoTest.java
+/home/linus/finance-tracker-db/db-test/src/test/java/com/upkdev/financetracker/dbtest/functions/DbFunctionsTest.java
+/home/linus/finance-tracker-db/db-test/src/test/java/com/upkdev/financetracker/dbtest/ods/ExpenseDaoTest.java
+/home/linus/finance-tracker-db/db-test/src/test/java/com/upkdev/financetracker/dbtest/views/DbViewsTest.java
+/home/linus/finance-tracker-db/db-test/src/test/java/com/upkdev/financetracker/dbtest/ods/SavingsGoalDaoTest.java

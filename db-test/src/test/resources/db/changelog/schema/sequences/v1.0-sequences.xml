@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!-- ODS sequences -->
+    <changeSet id="v1.0-seq-001-ods-member"              author="upesh.karki">
+        <createSequence schemaName="ods" sequenceName="member_id_seq"              startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="v1.0-seq-002-ods-member-detail"       author="upesh.karki">
+        <createSequence schemaName="ods" sequenceName="member_detail_id_seq"       startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="v1.0-seq-003-ods-expense"             author="upesh.karki">
+        <createSequence schemaName="ods" sequenceName="expense_id_seq"             startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="v1.0-seq-004-ods-savings-goal"        author="upesh.karki">
+        <createSequence schemaName="ods" sequenceName="savings_goal_id_seq"        startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <!-- RPT sequences -->
+    <changeSet id="v1.0-seq-005-rpt-savings-rec"         author="upesh.karki">
+        <createSequence schemaName="rpt" sequenceName="savings_recommendation_id_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="v1.0-seq-006-rpt-monthly-summary"     author="upesh.karki">
+        <createSequence schemaName="rpt" sequenceName="member_monthly_summary_id_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+</databaseChangeLog>
