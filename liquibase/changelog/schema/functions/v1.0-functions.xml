@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        FUNCTIONS — v1.0
+        Author : upesh.karki
+        Desc   : Utility functions and stored procedures.
+
+        fn_get_member_monthly_total(member_id, year, month)
+            → Returns total expense amount for a member in a given month.
+
+        fn_get_member_savings_rate(member_id)
+            → Returns (income - total_expenses) / income * 100 as savings %.
+    -->
+
+    <changeSet id="v1.0-fn-001-get-member-monthly-total" author="upesh.karki" runOnChange="true">
+        <sql splitStatements="false">
+            CREATE OR REPLACE FUNCTION fn_get_member_monthly_total(
+                p_member_id  BIGINT,
+                p_year       INT,
+                p_month      INT
+            )
+            RETURNS NUMERIC AS $$
+            BEGIN
+                RETURN COALESCE(
+                    (SELECT SUM(amount)
+                     FROM expense
+                     WHERE member_id   = p_member_id
+                       AND EXTRACT(YEAR  FROM expense_date) = p_year
+                       AND EXTRACT(MONTH FROM expense_date) = p_month),
+                    0
+                );
+            END;
+            $$ LANGUAGE plpgsql;
+        </sql>
+        <rollback>DROP FUNCTION IF EXISTS fn_get_member_monthly_total(BIGINT, INT, INT);</rollback>
+    </changeSet>
+
+    <changeSet id="v1.0-fn-002-get-member-savings-rate" author="upesh.karki" runOnChange="true">
+        <sql splitStatements="false">
+            CREATE OR REPLACE FUNCTION fn_get_member_savings_rate(
+                p_member_id BIGINT
+            )
+            RETURNS NUMERIC AS $$
+            DECLARE
+                v_income        NUMERIC;
+                v_total_expenses NUMERIC;
+            BEGIN
+                SELECT COALESCE(MAX(income), 0)
+                INTO v_income
+                FROM savings_goal
+                WHERE member_id = p_member_id
+                  AND status = 'ACTIVE'
+                LIMIT 1;
+
+                SELECT COALESCE(SUM(amount), 0)
+                INTO v_total_expenses
+                FROM expense
+                WHERE member_id = p_member_id
+                  AND expense_date >= DATE_TRUNC('month', CURRENT_DATE);
+
+                IF v_income = 0 THEN
+                    RETURN 0;
+                END IF;
+
+                RETURN ROUND(((v_income - v_total_expenses) / v_income) * 100, 2);
+            END;
+            $$ LANGUAGE plpgsql;
+        </sql>
+        <rollback>DROP FUNCTION IF EXISTS fn_get_member_savings_rate(BIGINT);</rollback>
+    </changeSet>
+
+    <changeSet id="v1.0-fn-003-get-expense-by-category-summary" author="upesh.karki" runOnChange="true">
+        <sql splitStatements="false">
+            CREATE OR REPLACE FUNCTION fn_get_category_summary(
+                p_member_id BIGINT
+            )
+            RETURNS TABLE(category VARCHAR, total NUMERIC, percentage NUMERIC) AS $$
+            DECLARE
+                v_grand_total NUMERIC;
+            BEGIN
+                SELECT COALESCE(SUM(amount), 0) INTO v_grand_total
+                FROM expense WHERE member_id = p_member_id;
+
+                RETURN QUERY
+                SELECT
+                    e.category,
+                    SUM(e.amount) AS total,
+                    CASE WHEN v_grand_total = 0 THEN 0
+                         ELSE ROUND((SUM(e.amount) / v_grand_total) * 100, 2)
+                    END AS percentage
+                FROM expense e
+                WHERE e.member_id = p_member_id
+                GROUP BY e.category
+                ORDER BY total DESC;
+            END;
+            $$ LANGUAGE plpgsql;
+        </sql>
+        <rollback>DROP FUNCTION IF EXISTS fn_get_category_summary(BIGINT);</rollback>
+    </changeSet>
+
+</databaseChangeLog>

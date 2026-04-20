@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        INDEXES — v1.0
+        Author : upesh.karki
+        Desc   : Performance indexes for common query patterns.
+    -->
+
+    <!-- member: lookup by email and username are the most common auth queries -->
+    <changeSet id="v1.0-idx-001-member-email" author="upesh.karki">
+        <createIndex indexName="idx_member_email" tableName="member" unique="true">
+            <column name="email"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="v1.0-idx-002-member-username" author="upesh.karki">
+        <createIndex indexName="idx_member_username" tableName="member" unique="true">
+            <column name="username"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- expense: most queries filter by member_id, then category or date -->
+    <changeSet id="v1.0-idx-003-expense-member-id" author="upesh.karki">
+        <createIndex indexName="idx_expense_member_id" tableName="expense">
+            <column name="member_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="v1.0-idx-004-expense-member-category" author="upesh.karki">
+        <createIndex indexName="idx_expense_member_category" tableName="expense">
+            <column name="member_id"/>
+            <column name="category"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="v1.0-idx-005-expense-member-date" author="upesh.karki">
+        <createIndex indexName="idx_expense_member_date" tableName="expense">
+            <column name="member_id"/>
+            <column name="expense_date"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- savings_goal: lookup by member_id and status -->
+    <changeSet id="v1.0-idx-006-savings-goal-member-id" author="upesh.karki">
+        <createIndex indexName="idx_savings_goal_member_id" tableName="savings_goal">
+            <column name="member_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet id="v1.0-idx-007-savings-goal-status" author="upesh.karki">
+        <createIndex indexName="idx_savings_goal_status" tableName="savings_goal">
+            <column name="member_id"/>
+            <column name="status"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

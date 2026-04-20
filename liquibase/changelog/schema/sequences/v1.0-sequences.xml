@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        SEQUENCES — v1.0
+        Note: bigserial columns auto-create sequences in PostgreSQL.
+        Explicit sequences are defined here for shared or custom-start cases.
+    -->
+
+    <changeSet id="v1.0-seq-001-member-seq" author="upesh.karki">
+        <createSequence sequenceName="member_id_seq"     startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="v1.0-seq-002-expense-seq" author="upesh.karki">
+        <createSequence sequenceName="expense_id_seq"    startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="v1.0-seq-003-savings-seq" author="upesh.karki">
+        <createSequence sequenceName="savings_goal_id_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="v1.0-seq-004-member-detail-seq" author="upesh.karki">
+        <createSequence sequenceName="member_detail_id_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+</databaseChangeLog>

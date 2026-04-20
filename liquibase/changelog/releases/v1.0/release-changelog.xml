@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        RELEASE v1.0 CHANGELOG
+        ======================
+        Initial schema — all core tables for Finance Tracker v1.0
+        Author : Upesh Karki
+        Date   : 2026-04-19
+
+        Includes (in dependency order):
+          1. Sequences
+          2. Tables
+          3. Indexes
+          4. Functions / Stored Procedures
+          5. Views
+    -->
+
+    <!-- 1. Sequences -->
+    <include file="../../schema/sequences/v1.0-sequences.xml" relativeToChangelogFile="true"/>
+
+    <!-- 2. Tables (order matters — parent before child) -->
+    <include file="../../schema/tables/v1.0-001-member.xml"         relativeToChangelogFile="true"/>
+    <include file="../../schema/tables/v1.0-002-member-detail.xml"  relativeToChangelogFile="true"/>
+    <include file="../../schema/tables/v1.0-003-expense.xml"        relativeToChangelogFile="true"/>
+    <include file="../../schema/tables/v1.0-004-savings-goal.xml"   relativeToChangelogFile="true"/>
+
+    <!-- 3. Indexes -->
+    <include file="../../schema/indexes/v1.0-indexes.xml"  relativeToChangelogFile="true"/>
+
+    <!-- 4. Functions -->
+    <include file="../../schema/functions/v1.0-functions.xml" relativeToChangelogFile="true"/>
+
+    <!-- 5. Views -->
+    <include file="../../schema/views/v1.0-views.xml" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>

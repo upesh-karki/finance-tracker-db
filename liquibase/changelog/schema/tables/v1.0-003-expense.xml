@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        TABLE: expense
+        Version : v1.0
+        Author  : upesh.karki
+        Desc    : All expenses logged by a member.
+                  category values: FOOD | TRANSPORT | UTILITIES | SUBSCRIPTIONS |
+                                   ENTERTAINMENT | TRAVEL | HEALTH | OTHER
+    -->
+
+    <changeSet id="v1.0-tbl-003-create-expense" author="upesh.karki">
+        <createTable tableName="expense" remarks="Member expense records">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="expense_id_seq">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_expense"/>
+            </column>
+            <column name="member_id"    type="BIGINT"        remarks="FK to member">
+                <constraints nullable="false"
+                             foreignKeyName="fk_expense_member"
+                             references="member(id)"/>
+            </column>
+            <column name="expense_name" type="VARCHAR(255)"  remarks="Name/description of the expense">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount"       type="NUMERIC(10,2)" remarks="Expense amount in CAD/USD">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category"     type="VARCHAR(50)"
+                     remarks="FOOD|TRANSPORT|UTILITIES|SUBSCRIPTIONS|ENTERTAINMENT|TRAVEL|HEALTH|OTHER"/>
+            <column name="description"  type="VARCHAR(500)"/>
+            <column name="expense_date" type="DATE"          remarks="Date the expense occurred"/>
+            <column name="created_at"   type="TIMESTAMP"     defaultValueComputed="NOW()"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

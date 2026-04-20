@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        TABLE: member
+        Version : v1.0
+        Author  : upesh.karki
+        Desc    : Core user/member table. Stores login credentials and basic profile.
+    -->
+
+    <changeSet id="v1.0-tbl-001-create-member" author="upesh.karki">
+        <createTable tableName="member" remarks="Core member/user table">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="member_id_seq">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_member"/>
+            </column>
+            <column name="first_name"     type="VARCHAR(100)"  remarks="Member first name"/>
+            <column name="last_name"      type="VARCHAR(100)"  remarks="Member last name"/>
+            <column name="email"          type="VARCHAR(255)"  remarks="Unique email address">
+                <constraints nullable="false" unique="true" uniqueConstraintName="uq_member_email"/>
+            </column>
+            <column name="password"       type="VARCHAR(255)"  remarks="Hashed password">
+                <constraints nullable="false"/>
+            </column>
+            <column name="username"       type="VARCHAR(100)"  remarks="Unique username">
+                <constraints unique="true" uniqueConstraintName="uq_member_username"/>
+            </column>
+            <column name="occupation"     type="VARCHAR(100)"/>
+            <column name="phone_number"   type="VARCHAR(30)"/>
+            <column name="profile_status" type="VARCHAR(20)"   defaultValue="ACTIVE"
+                     remarks="ACTIVE | INACTIVE | SUSPENDED"/>
+            <column name="created_at"     type="TIMESTAMP"     defaultValueComputed="NOW()"
+                     remarks="Record creation timestamp"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
