@@ -5,7 +5,6 @@ on:
   pull_request:
     branches: [main]
 
-# Explicitly grant write permission to publish packages
 permissions:
   contents: read
   packages: write
@@ -58,5 +57,7 @@ jobs:
           path: db-test/target/surefire-reports/
 
       - name: Publish to GitHub Packages
+        # SNAPSHOT versions are freely overwritable — no version bump needed during development.
+        # To cut a release: remove -SNAPSHOT from version in db-test/pom.xml before merging.
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: cd db-test && mvn deploy -DskipTests --no-transfer-progress
