@@ -12,12 +12,12 @@ Finance Tracker uses calendar-based versioning: **YYYY.MM.patch**
 
 | Version | Date | Description |
 |---|---|---|
-| `2026.05.1` | 2026-04-19 | Initial schema — ods/ref/rpt schemas, all core tables, functions, views |
+| `2026.04.1` | 2026-04-19 | Initial schema — ods/ref/rpt schemas, all core tables, functions, views |
 
 ## How Releases Connect
 
 ```
-finance-tracker-db-test:2026.05.1  (test fixture JAR)
+finance-tracker-db-test:2026.04.1  (test fixture JAR)
          ↓ test dependency
 finance-tracker-api                (DAO layer tests use embedded DB from this JAR)
 ```
