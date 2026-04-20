@@ -1,0 +1,8 @@
+# Git — ignore backup dumps and env files
+backup/dumps/
+.env
+*.env
+
+# OS
+.DS_Store
+Thumbs.db
