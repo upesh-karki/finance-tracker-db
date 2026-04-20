@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        SCHEMA : rpt
+        TABLE  : rpt.member_monthly_summary
+        Version: v1.0
+        Author : upesh.karki
+        Desc   : Monthly expense summary per member, per category.
+                 Computed and stored by the reporting engine for fast dashboard queries.
+                 Do not write to this table from user-facing endpoints.
+    -->
+
+    <changeSet id="v1.0-rpt-tbl-002-member-monthly-summary" author="upesh.karki">
+        <createTable schemaName="rpt" tableName="member_monthly_summary"
+                     remarks="Pre-aggregated monthly expense totals per member — output of reporting engine">
+            <column name="id" type="BIGSERIAL" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_rpt_member_monthly_summary"/>
+            </column>
+            <column name="member_id"      type="BIGINT"        remarks="FK → ods.member.id">
+                <constraints nullable="false"
+                             foreignKeyName="fk_rpt_monthly_summary_member"
+                             references="ods.member(id)"/>
+            </column>
+            <column name="summary_year"   type="INT"           remarks="Year of the summary period">
+                <constraints nullable="false"/>
+            </column>
+            <column name="summary_month"  type="INT"           remarks="Month of the summary period (1-12)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category"       type="VARCHAR(50)"   remarks="Expense category — FK → ref.expense_category.code"/>
+            <column name="total_amount"   type="NUMERIC(10,2)" remarks="Total spent in this category for the month"/>
+            <column name="expense_count"  type="INT"           remarks="Number of individual expenses in this category"/>
+            <column name="computed_at"    type="TIMESTAMP"     defaultValueComputed="NOW()"
+                     remarks="When this row was last computed"/>
+        </createTable>
+    </changeSet>
+
+    <!-- Unique constraint: one row per member/year/month/category -->
+    <changeSet id="v1.0-rpt-idx-001-monthly-summary-unique" author="upesh.karki">
+        <addUniqueConstraint
+            schemaName="rpt"
+            tableName="member_monthly_summary"
+            columnNames="member_id, summary_year, summary_month, category"
+            constraintName="uq_rpt_monthly_summary"/>
+    </changeSet>
+
+</databaseChangeLog>

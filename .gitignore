@@ -3,6 +3,9 @@ backup/dumps/
 .env
 *.env
 
+# Maven build output
+db-test/target/
+
 # OS
 .DS_Store
 Thumbs.db

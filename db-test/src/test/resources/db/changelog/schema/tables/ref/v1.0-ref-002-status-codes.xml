@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        SCHEMA : ref
+        TABLE  : ref.profile_status
+        TABLE  : ref.goal_status
+        Version: v1.0
+        Author : upesh.karki
+        Desc   : Status code lookup tables for member profiles and savings goals.
+    -->
+
+    <changeSet id="v1.0-ref-tbl-002-profile-status" author="upesh.karki">
+        <createTable schemaName="ref" tableName="profile_status" remarks="Valid member profile status codes">
+            <column name="code"        type="VARCHAR(20)"  remarks="Status code used in ods.member.profile_status">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_ref_profile_status"/>
+            </column>
+            <column name="label"       type="VARCHAR(100)" remarks="Human-readable label">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1.0-ref-dml-002-profile-status-seed" author="upesh.karki">
+        <insert schemaName="ref" tableName="profile_status">
+            <column name="code" value="ACTIVE"/>
+            <column name="label" value="Active"/>
+            <column name="description" value="Account is active and in good standing"/>
+        </insert>
+        <insert schemaName="ref" tableName="profile_status">
+            <column name="code" value="INACTIVE"/>
+            <column name="label" value="Inactive"/>
+            <column name="description" value="Account exists but user has not logged in recently"/>
+        </insert>
+        <insert schemaName="ref" tableName="profile_status">
+            <column name="code" value="SUSPENDED"/>
+            <column name="label" value="Suspended"/>
+            <column name="description" value="Account has been suspended by an administrator"/>
+        </insert>
+        <rollback>
+            <delete schemaName="ref" tableName="profile_status"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="v1.0-ref-tbl-003-goal-status" author="upesh.karki">
+        <createTable schemaName="ref" tableName="goal_status" remarks="Valid savings goal status codes">
+            <column name="code"        type="VARCHAR(20)"  remarks="Status code used in ods.savings_goal.status">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_ref_goal_status"/>
+            </column>
+            <column name="label"       type="VARCHAR(100)" remarks="Human-readable label">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="v1.0-ref-dml-003-goal-status-seed" author="upesh.karki">
+        <insert schemaName="ref" tableName="goal_status">
+            <column name="code" value="ACTIVE"/>
+            <column name="label" value="Active"/>
+            <column name="description" value="Goal is in progress"/>
+        </insert>
+        <insert schemaName="ref" tableName="goal_status">
+            <column name="code" value="ACHIEVED"/>
+            <column name="label" value="Achieved"/>
+            <column name="description" value="Target amount has been reached"/>
+        </insert>
+        <insert schemaName="ref" tableName="goal_status">
+            <column name="code" value="CANCELLED"/>
+            <column name="label" value="Cancelled"/>
+            <column name="description" value="Goal was cancelled by the user"/>
+        </insert>
+        <rollback>
+            <delete schemaName="ref" tableName="goal_status"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

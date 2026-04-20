@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.upkdev.financetracker</groupId>
+    <artifactId>finance-tracker-db-test</artifactId>
+    <version>2026.05.1</version>
+    <packaging>jar</packaging>
+
+    <name>finance-tracker-db-test</name>
+    <description>
+        Integration tests for Finance Tracker DB schema using embedded PostgreSQL.
+        No Docker required. Also publishes a test-fixtures JAR (classifier=tests)
+        so finance-tracker-api DAO tests can depend on a pre-migrated real Postgres.
+    </description>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <embedded.postgres.version>2.0.7</embedded.postgres.version>
+        <liquibase.version>4.26.0</liquibase.version>
+        <postgresql.version>42.7.3</postgresql.version>
+        <junit.version>5.10.2</junit.version>
+        <assertj.version>3.25.3</assertj.version>
+    </properties>
+
+    <dependencies>
+        <!--
+            Embedded PostgreSQL — real Postgres process, no Docker needed.
+            Downloads a platform-specific Postgres binary on first run,
+            caches it in ~/.embedpostgresql/
+        -->
+        <dependency>
+            <groupId>io.zonky.test</groupId>
+            <artifactId>embedded-postgres</artifactId>
+            <version>${embedded.postgres.version}</version>
+        </dependency>
+
+        <!-- Liquibase — runs changelogs against the embedded instance -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
+        </dependency>
+
+        <!-- PostgreSQL JDBC driver -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+
+        <!-- JUnit 5 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+
+        <!-- AssertJ -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+        </dependency>
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>2.0.12</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- JUnit 5 runner -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.5</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+
+            <!--
+                Build two JARs:
+                  1. Main JAR  — DbEmbeddedPostgresConfig (test fixture class)
+                  2. Tests JAR — all test classes (classifier=tests)
+                finance-tracker-api adds the tests JAR as a test dependency
+                to use the same embedded DB setup in its DAO layer tests.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>test-jar</id>
+                        <goals><goal>test-jar</goal></goals>
+                        <configuration>
+                            <classifier>tests</classifier>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
