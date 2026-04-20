@@ -59,4 +59,4 @@ jobs:
 
       - name: Publish to GitHub Packages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: cd db-test && mvn deploy -DskipTests
+        run: cd db-test && mvn deploy -DskipTests --no-transfer-progress
