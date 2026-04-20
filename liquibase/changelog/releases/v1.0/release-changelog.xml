@@ -8,34 +8,48 @@
     <!--
         RELEASE v1.0 CHANGELOG
         ======================
-        Initial schema — all core tables for Finance Tracker v1.0
+        Finance Tracker — initial schema
         Author : Upesh Karki
         Date   : 2026-04-19
 
-        Includes (in dependency order):
-          1. Sequences
-          2. Tables
-          3. Indexes
-          4. Functions / Stored Procedures
-          5. Views
+        Execution order (dependencies first):
+          1. Schemas          — create ods, ref, rpt schemas
+          2. Sequences        — sequences for all tables
+          3. REF tables       — reference/lookup data (no FK deps)
+          4. ODS tables       — user input tables (FKs ref ref where applicable)
+          5. RPT tables       — business logic output (FKs ref ods)
+          6. Indexes          — performance indexes across all schemas
+          7. Functions        — stored functions (depend on tables)
+          8. Views            — views across schemas (depend on tables)
     -->
 
-    <!-- 1. Sequences -->
-    <include file="../../schema/sequences/v1.0-sequences.xml" relativeToChangelogFile="true"/>
+    <!-- 1. Schemas -->
+    <include file="../../schema/schemas/v1.0-schemas.xml"                           relativeToChangelogFile="true"/>
 
-    <!-- 2. Tables (order matters — parent before child) -->
-    <include file="../../schema/tables/v1.0-001-member.xml"         relativeToChangelogFile="true"/>
-    <include file="../../schema/tables/v1.0-002-member-detail.xml"  relativeToChangelogFile="true"/>
-    <include file="../../schema/tables/v1.0-003-expense.xml"        relativeToChangelogFile="true"/>
-    <include file="../../schema/tables/v1.0-004-savings-goal.xml"   relativeToChangelogFile="true"/>
+    <!-- 2. Sequences -->
+    <include file="../../schema/sequences/v1.0-sequences.xml"                       relativeToChangelogFile="true"/>
 
-    <!-- 3. Indexes -->
-    <include file="../../schema/indexes/v1.0-indexes.xml"  relativeToChangelogFile="true"/>
+    <!-- 3. REF tables + seed data -->
+    <include file="../../schema/tables/ref/v1.0-ref-001-expense-category.xml"       relativeToChangelogFile="true"/>
+    <include file="../../schema/tables/ref/v1.0-ref-002-status-codes.xml"           relativeToChangelogFile="true"/>
 
-    <!-- 4. Functions -->
-    <include file="../../schema/functions/v1.0-functions.xml" relativeToChangelogFile="true"/>
+    <!-- 4. ODS tables (parent before child) -->
+    <include file="../../schema/tables/ods/v1.0-ods-001-member.xml"                 relativeToChangelogFile="true"/>
+    <include file="../../schema/tables/ods/v1.0-ods-002-member-detail.xml"          relativeToChangelogFile="true"/>
+    <include file="../../schema/tables/ods/v1.0-ods-003-expense.xml"                relativeToChangelogFile="true"/>
+    <include file="../../schema/tables/ods/v1.0-ods-004-savings-goal.xml"           relativeToChangelogFile="true"/>
 
-    <!-- 5. Views -->
-    <include file="../../schema/views/v1.0-views.xml" relativeToChangelogFile="true"/>
+    <!-- 5. RPT tables -->
+    <include file="../../schema/tables/rpt/v1.0-rpt-001-savings-recommendation.xml" relativeToChangelogFile="true"/>
+    <include file="../../schema/tables/rpt/v1.0-rpt-002-member-monthly-summary.xml" relativeToChangelogFile="true"/>
+
+    <!-- 6. Indexes -->
+    <include file="../../schema/indexes/v1.0-indexes.xml"                           relativeToChangelogFile="true"/>
+
+    <!-- 7. Functions -->
+    <include file="../../schema/functions/v1.0-functions.xml"                       relativeToChangelogFile="true"/>
+
+    <!-- 8. Views -->
+    <include file="../../schema/views/v1.0-views.xml"                               relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

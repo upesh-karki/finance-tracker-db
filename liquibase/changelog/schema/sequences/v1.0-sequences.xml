@@ -5,26 +5,26 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
 
-    <!--
-        SEQUENCES — v1.0
-        Note: bigserial columns auto-create sequences in PostgreSQL.
-        Explicit sequences are defined here for shared or custom-start cases.
-    -->
-
-    <changeSet id="v1.0-seq-001-member-seq" author="upesh.karki">
-        <createSequence sequenceName="member_id_seq"     startValue="1" incrementBy="1"/>
+    <!-- ODS sequences -->
+    <changeSet id="v1.0-seq-001-ods-member"              author="upesh.karki">
+        <createSequence schemaName="ods" sequenceName="member_id_seq"              startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="v1.0-seq-002-ods-member-detail"       author="upesh.karki">
+        <createSequence schemaName="ods" sequenceName="member_detail_id_seq"       startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="v1.0-seq-003-ods-expense"             author="upesh.karki">
+        <createSequence schemaName="ods" sequenceName="expense_id_seq"             startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="v1.0-seq-004-ods-savings-goal"        author="upesh.karki">
+        <createSequence schemaName="ods" sequenceName="savings_goal_id_seq"        startValue="1" incrementBy="1"/>
     </changeSet>
 
-    <changeSet id="v1.0-seq-002-expense-seq" author="upesh.karki">
-        <createSequence sequenceName="expense_id_seq"    startValue="1" incrementBy="1"/>
+    <!-- RPT sequences -->
+    <changeSet id="v1.0-seq-005-rpt-savings-rec"         author="upesh.karki">
+        <createSequence schemaName="rpt" sequenceName="savings_recommendation_id_seq" startValue="1" incrementBy="1"/>
     </changeSet>
-
-    <changeSet id="v1.0-seq-003-savings-seq" author="upesh.karki">
-        <createSequence sequenceName="savings_goal_id_seq" startValue="1" incrementBy="1"/>
-    </changeSet>
-
-    <changeSet id="v1.0-seq-004-member-detail-seq" author="upesh.karki">
-        <createSequence sequenceName="member_detail_id_seq" startValue="1" incrementBy="1"/>
+    <changeSet id="v1.0-seq-006-rpt-monthly-summary"     author="upesh.karki">
+        <createSequence schemaName="rpt" sequenceName="member_monthly_summary_id_seq" startValue="1" incrementBy="1"/>
     </changeSet>
 
 </databaseChangeLog>

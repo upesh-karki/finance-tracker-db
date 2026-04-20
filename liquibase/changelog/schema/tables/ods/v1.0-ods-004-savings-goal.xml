@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        SCHEMA : ods
+        TABLE  : ods.savings_goal
+        Version: v1.0
+        Author : upesh.karki
+        Desc   : Savings goals created by the user. Input from goal setup form.
+                 status is validated against ref.goal_status.
+    -->
+
+    <changeSet id="v1.0-ods-tbl-004-savings-goal" author="upesh.karki">
+        <createTable schemaName="ods" tableName="savings_goal" remarks="User-defined savings goals">
+            <column name="id" type="BIGINT" defaultValueSequenceNext="ods.savings_goal_id_seq">
+                <constraints primaryKey="true" nullable="false" primaryKeyName="pk_ods_savings_goal"/>
+            </column>
+            <column name="member_id"              type="BIGINT"        remarks="FK → ods.member.id">
+                <constraints nullable="false"
+                             foreignKeyName="fk_ods_savings_goal_member"
+                             references="ods.member(id)"/>
+            </column>
+            <column name="goal_name"              type="VARCHAR(255)"  remarks="User-provided goal label">
+                <constraints nullable="false"/>
+            </column>
+            <column name="target_amount"          type="NUMERIC(10,2)" remarks="Total amount the user wants to save"/>
+            <column name="current_amount"         type="NUMERIC(10,2)" defaultValueNumeric="0"
+                     remarks="Amount saved so far — updated by user or business logic"/>
+            <column name="monthly_savings_target" type="NUMERIC(10,2)" remarks="How much the user plans to save per month"/>
+            <column name="income"                 type="NUMERIC(10,2)" remarks="User-declared monthly income"/>
+            <column name="target_date"            type="DATE"          remarks="Goal completion deadline"/>
+            <column name="status"                 type="VARCHAR(20)"   defaultValue="ACTIVE"
+                     remarks="FK → ref.goal_status.code. ACTIVE|ACHIEVED|CANCELLED"/>
+            <column name="created_at"             type="TIMESTAMP"     defaultValueComputed="NOW()"/>
+            <column name="updated_at"             type="TIMESTAMP"     defaultValueComputed="NOW()"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

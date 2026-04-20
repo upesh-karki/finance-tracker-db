@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        SCHEMAS — v1.0
+        Author : upesh.karki
+
+        Three schemas with clear separation of concerns:
+
+        ods  (Operational Data Store)
+             Raw input data submitted by users. Members, expenses, savings goals.
+             This is the write-side of the system.
+
+        ref  (Reference Data)
+             Static lookup data. Categories, status codes, countries.
+             Populated once, rarely changes. Read-only from the app.
+
+        rpt  (Reporting / Output)
+             Derived data produced by business logic. Summaries, recommendations,
+             projections. Populated by the savings recommendation engine.
+    -->
+
+    <changeSet id="v1.0-schema-001-ods" author="upesh.karki">
+        <sql>CREATE SCHEMA IF NOT EXISTS ods;</sql>
+        <rollback><sql>DROP SCHEMA IF EXISTS ods CASCADE;</sql></rollback>
+    </changeSet>
+
+    <changeSet id="v1.0-schema-002-ref" author="upesh.karki">
+        <sql>CREATE SCHEMA IF NOT EXISTS ref;</sql>
+        <rollback><sql>DROP SCHEMA IF EXISTS ref CASCADE;</sql></rollback>
+    </changeSet>
+
+    <changeSet id="v1.0-schema-003-rpt" author="upesh.karki">
+        <sql>CREATE SCHEMA IF NOT EXISTS rpt;</sql>
+        <rollback><sql>DROP SCHEMA IF EXISTS rpt CASCADE;</sql></rollback>
+    </changeSet>
+
+</databaseChangeLog>

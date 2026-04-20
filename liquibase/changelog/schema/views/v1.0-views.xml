@@ -7,67 +7,80 @@
 
     <!--
         VIEWS — v1.0
-        Author : upesh.karki
+        runOnChange=true — safe to edit without a new changeSet ID
 
-        vw_member_expense_summary
-            → Per-member totals: total expenses, category count, latest expense date.
-
-        vw_member_savings_overview
-            → Per-member savings summary: income, expenses, savings rate, active goals.
+        rpt.vw_member_expense_summary    → lives in rpt, joins ods tables
+        rpt.vw_member_savings_overview   → lives in rpt, joins ods tables
+        rpt.vw_expense_category_breakdown → lives in rpt, reads ods.expense
+        ref.vw_expense_categories_active → lives in ref, filters active categories
     -->
 
-    <changeSet id="v1.0-vw-001-member-expense-summary" author="upesh.karki" runOnChange="true">
-        <createView viewName="vw_member_expense_summary" replaceIfExists="true">
+    <changeSet id="v1.0-vw-001-rpt-member-expense-summary" author="upesh.karki" runOnChange="true">
+        <createView schemaName="rpt" viewName="vw_member_expense_summary" replaceIfExists="true"
+                    remarks="Per-member expense totals — output for dashboard">
             SELECT
-                m.id                                    AS member_id,
-                m.first_name || ' ' || m.last_name     AS full_name,
+                m.id                                AS member_id,
+                m.first_name || ' ' || m.last_name  AS full_name,
                 m.email,
-                COUNT(e.id)                             AS total_expense_count,
-                COALESCE(SUM(e.amount), 0)              AS total_expenses,
-                COUNT(DISTINCT e.category)              AS category_count,
-                MAX(e.expense_date)                     AS latest_expense_date
-            FROM member m
-            LEFT JOIN expense e ON e.member_id = m.id
+                COUNT(e.id)                         AS total_expense_count,
+                COALESCE(SUM(e.amount), 0)          AS total_expenses,
+                COUNT(DISTINCT e.category)          AS category_count,
+                MAX(e.expense_date)                 AS latest_expense_date
+            FROM ods.member m
+            LEFT JOIN ods.expense e ON e.member_id = m.id
             GROUP BY m.id, m.first_name, m.last_name, m.email
         </createView>
-        <rollback>DROP VIEW IF EXISTS vw_member_expense_summary;</rollback>
+        <rollback>DROP VIEW IF EXISTS rpt.vw_member_expense_summary;</rollback>
     </changeSet>
 
-    <changeSet id="v1.0-vw-002-member-savings-overview" author="upesh.karki" runOnChange="true">
-        <createView viewName="vw_member_savings_overview" replaceIfExists="true">
+    <changeSet id="v1.0-vw-002-rpt-member-savings-overview" author="upesh.karki" runOnChange="true">
+        <createView schemaName="rpt" viewName="vw_member_savings_overview" replaceIfExists="true"
+                    remarks="Income vs expenses vs savings goals per member — output for recommendations">
             SELECT
-                m.id                                            AS member_id,
-                m.first_name || ' ' || m.last_name             AS full_name,
-                COALESCE(sg.income, 0)                         AS monthly_income,
-                COALESCE(SUM(e.amount), 0)                     AS total_expenses,
-                COALESCE(sg.income, 0) - COALESCE(SUM(e.amount), 0)
-                                                               AS net_savings,
-                COUNT(DISTINCT sg.id)                          AS active_goals,
-                COALESCE(SUM(sg.target_amount), 0)             AS total_goals_target,
-                COALESCE(SUM(sg.current_amount), 0)            AS total_goals_saved
-            FROM member m
-            LEFT JOIN expense e      ON e.member_id  = m.id
-            LEFT JOIN savings_goal sg ON sg.member_id = m.id
-                                    AND sg.status = 'ACTIVE'
+                m.id                                                AS member_id,
+                m.first_name || ' ' || m.last_name                 AS full_name,
+                COALESCE(sg.income, 0)                             AS monthly_income,
+                COALESCE(SUM(e.amount), 0)                         AS total_expenses,
+                COALESCE(sg.income, 0) - COALESCE(SUM(e.amount), 0) AS net_savings,
+                COUNT(DISTINCT sg.id)                              AS active_goals,
+                COALESCE(SUM(sg.target_amount), 0)                 AS total_goals_target,
+                COALESCE(SUM(sg.current_amount), 0)                AS total_goals_saved
+            FROM ods.member m
+            LEFT JOIN ods.expense e       ON e.member_id  = m.id
+            LEFT JOIN ods.savings_goal sg ON sg.member_id = m.id AND sg.status = 'ACTIVE'
             GROUP BY m.id, m.first_name, m.last_name, sg.income
         </createView>
-        <rollback>DROP VIEW IF EXISTS vw_member_savings_overview;</rollback>
+        <rollback>DROP VIEW IF EXISTS rpt.vw_member_savings_overview;</rollback>
     </changeSet>
 
-    <changeSet id="v1.0-vw-003-expense-category-breakdown" author="upesh.karki" runOnChange="true">
-        <createView viewName="vw_expense_category_breakdown" replaceIfExists="true">
+    <changeSet id="v1.0-vw-003-rpt-expense-category-breakdown" author="upesh.karki" runOnChange="true">
+        <createView schemaName="rpt" viewName="vw_expense_category_breakdown" replaceIfExists="true"
+                    remarks="Expense stats by member and category — output for spending analysis">
             SELECT
-                member_id,
-                category,
-                COUNT(*)                AS expense_count,
-                SUM(amount)             AS total_amount,
-                AVG(amount)             AS avg_amount,
-                MIN(expense_date)       AS first_expense,
-                MAX(expense_date)       AS last_expense
-            FROM expense
-            GROUP BY member_id, category
+                e.member_id,
+                e.category,
+                rc.label                    AS category_label,
+                COUNT(*)                    AS expense_count,
+                SUM(e.amount)               AS total_amount,
+                AVG(e.amount)               AS avg_amount,
+                MIN(e.expense_date)         AS first_expense,
+                MAX(e.expense_date)         AS last_expense
+            FROM ods.expense e
+            LEFT JOIN ref.expense_category rc ON rc.code = e.category
+            GROUP BY e.member_id, e.category, rc.label
         </createView>
-        <rollback>DROP VIEW IF EXISTS vw_expense_category_breakdown;</rollback>
+        <rollback>DROP VIEW IF EXISTS rpt.vw_expense_category_breakdown;</rollback>
+    </changeSet>
+
+    <changeSet id="v1.0-vw-004-ref-active-categories" author="upesh.karki" runOnChange="true">
+        <createView schemaName="ref" viewName="vw_expense_categories_active" replaceIfExists="true"
+                    remarks="Active expense categories for UI dropdowns — read from ref schema">
+            SELECT code, label, description, icon, sort_order
+            FROM ref.expense_category
+            WHERE is_active = true
+            ORDER BY sort_order
+        </createView>
+        <rollback>DROP VIEW IF EXISTS ref.vw_expense_categories_active;</rollback>
     </changeSet>
 
 </databaseChangeLog>
