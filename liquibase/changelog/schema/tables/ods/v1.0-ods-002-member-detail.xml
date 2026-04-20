@@ -15,7 +15,7 @@
 
     <changeSet id="v1.0-ods-tbl-002-member-detail" author="upesh.karki">
         <createTable schemaName="ods" tableName="member_detail" remarks="Extended user profile — input from profile setup form">
-            <column name="id" type="BIGINT" defaultValueSequenceNext="ods.member_detail_id_seq">
+            <column name="id" type="BIGSERIAL" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false" primaryKeyName="pk_ods_member_detail"/>
             </column>
             <column name="member_id"    type="BIGINT" remarks="FK → ods.member.id">

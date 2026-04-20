@@ -16,7 +16,7 @@
 
     <changeSet id="v1.0-ods-tbl-004-savings-goal" author="upesh.karki">
         <createTable schemaName="ods" tableName="savings_goal" remarks="User-defined savings goals">
-            <column name="id" type="BIGINT" defaultValueSequenceNext="ods.savings_goal_id_seq">
+            <column name="id" type="BIGSERIAL" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false" primaryKeyName="pk_ods_savings_goal"/>
             </column>
             <column name="member_id"              type="BIGINT"        remarks="FK → ods.member.id">

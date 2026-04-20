@@ -18,7 +18,7 @@
     <changeSet id="v1.0-rpt-tbl-002-member-monthly-summary" author="upesh.karki">
         <createTable schemaName="rpt" tableName="member_monthly_summary"
                      remarks="Pre-aggregated monthly expense totals per member — output of reporting engine">
-            <column name="id" type="BIGINT" defaultValueSequenceNext="rpt.member_monthly_summary_id_seq">
+            <column name="id" type="BIGSERIAL" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false" primaryKeyName="pk_rpt_member_monthly_summary"/>
             </column>
             <column name="member_id"      type="BIGINT"        remarks="FK → ods.member.id">

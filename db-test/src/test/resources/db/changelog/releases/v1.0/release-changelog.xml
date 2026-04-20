@@ -14,7 +14,6 @@
 
         Execution order (dependencies first):
           1. Schemas          — create ods, ref, rpt schemas
-          2. Sequences        — sequences for all tables
           3. REF tables       — reference/lookup data (no FK deps)
           4. ODS tables       — user input tables (FKs ref ref where applicable)
           5. RPT tables       — business logic output (FKs ref ods)
@@ -27,7 +26,6 @@
     <include file="../../schema/schemas/v1.0-schemas.xml"                           relativeToChangelogFile="true"/>
 
     <!-- 2. Sequences -->
-    <include file="../../schema/sequences/v1.0-sequences.xml"                       relativeToChangelogFile="true"/>
 
     <!-- 3. REF tables + seed data -->
     <include file="../../schema/tables/ref/v1.0-ref-001-expense-category.xml"       relativeToChangelogFile="true"/>

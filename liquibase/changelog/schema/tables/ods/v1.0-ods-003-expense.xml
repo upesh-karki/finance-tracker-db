@@ -16,7 +16,7 @@
 
     <changeSet id="v1.0-ods-tbl-003-expense" author="upesh.karki">
         <createTable schemaName="ods" tableName="expense" remarks="User-submitted expense records">
-            <column name="id" type="BIGINT" defaultValueSequenceNext="ods.expense_id_seq">
+            <column name="id" type="BIGSERIAL" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false" primaryKeyName="pk_ods_expense"/>
             </column>
             <column name="member_id"    type="BIGINT"        remarks="FK → ods.member.id">
