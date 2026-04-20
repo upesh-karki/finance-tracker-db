@@ -59,4 +59,15 @@ jobs:
 
       - name: Publish to GitHub Packages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: cd db-test && mvn deploy -DskipTests
+        run: |
+          cd db-test
+          # 409 Conflict means this version already exists in GitHub Packages.
+          # Bump <version> in pom.xml before merging to publish a new version.
+          mvn deploy -DskipTests --no-transfer-progress || {
+            EXIT=$?
+            if grep -q "409" <<< "$(mvn deploy -DskipTests 2>&1)"; then
+              echo "⚠️  Version already published. Bump the version in db-test/pom.xml to publish a new release."
+              exit 0
+            fi
+            exit $EXIT
+          }
