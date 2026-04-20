@@ -7,7 +7,7 @@
 
     <groupId>com.upkdev.financetracker</groupId>
     <artifactId>finance-tracker-db-test</artifactId>
-    <version>2026.04.1</version>
+    <version>2026.04.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>finance-tracker-db-test</name>
@@ -77,12 +77,20 @@
     </dependencies>
 
     <distributionManagement>
-        <!-- Release versions (e.g. 2026.04.1) — immutable, bump for each release -->
+        <!--
+            SNAPSHOT versions (e.g. 2026.04.1-SNAPSHOT) — freely overwritable, used during development.
+            RELEASE versions (e.g. 2026.04.1)           — immutable, cut by removing -SNAPSHOT when ready.
+        -->
         <repository>
             <id>github-packages</id>
-            <name>GitHub Packages</name>
+            <name>GitHub Packages Releases</name>
             <url>https://maven.pkg.github.com/upesh-karki/finance-tracker-db</url>
         </repository>
+        <snapshotRepository>
+            <id>github-packages</id>
+            <name>GitHub Packages Snapshots</name>
+            <url>https://maven.pkg.github.com/upesh-karki/finance-tracker-db</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <repositories>
