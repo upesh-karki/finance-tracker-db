@@ -5,6 +5,11 @@ on:
   pull_request:
     branches: [main]
 
+# Explicitly grant write permission to publish packages
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   test-and-publish:
     runs-on: ubuntu-latest
@@ -18,36 +23,32 @@ jobs:
         with:
           java-version: '17'
           distribution: temurin
+          cache: maven
 
       - name: Cache Maven deps
         uses: actions/cache@v4
         with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2-
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven-
 
       - name: Configure GitHub Packages auth
         run: |
           mkdir -p ~/.m2
-          cat > ~/.m2/settings.xml <<'EOF'
+          cat > ~/.m2/settings.xml <<EOF
           <settings>
             <servers>
               <server>
                 <id>github-packages</id>
-                <username>${env.GITHUB_ACTOR}</username>
-                <password>${env.GITHUB_TOKEN}</password>
+                <username>${{ github.actor }}</username>
+                <password>${{ secrets.GITHUB_TOKEN }}</password>
               </server>
             </servers>
           </settings>
           EOF
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run tests
         run: cd db-test && mvn clean verify
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ACTOR: ${{ github.actor }}
 
       - name: Upload test report
         if: always()
@@ -59,6 +60,3 @@ jobs:
       - name: Publish to GitHub Packages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: cd db-test && mvn deploy -DskipTests
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_ACTOR: ${{ github.actor }}
