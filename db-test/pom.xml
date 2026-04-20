@@ -76,6 +76,21 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <repository>
+            <id>github-packages</id>
+            <name>GitHub Packages</name>
+            <url>https://maven.pkg.github.com/upesh-karki/finance-tracker-db</url>
+        </repository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>github-packages</id>
+            <url>https://maven.pkg.github.com/upesh-karki/finance-tracker-db</url>
+        </repository>
+    </repositories>
+
     <build>
         <plugins>
             <!-- JUnit 5 runner -->
