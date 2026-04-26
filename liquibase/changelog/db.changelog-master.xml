@@ -19,4 +19,7 @@
     <!-- Release 1.1 — Accounts, Income, Statement Tracking -->
     <include file="releases/v1.1/release-changelog.xml" relativeToChangelogFile="true"/>
 
+    <!-- Release 1.2 — Auth fields + OTP table -->
+    <include file="releases/v1.2/release-changelog.xml" relativeToChangelogFile="true"/>
+
 </databaseChangeLog>

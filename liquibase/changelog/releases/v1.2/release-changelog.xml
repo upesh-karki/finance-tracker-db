@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+    <!--
+        RELEASE v1.2 — Auth: email_verified, auth_provider, google_id on member; email_otp table
+        Author: Upesh Karki  Date: 2026-04-26
+    -->
+    <include file="../../schema/tables/ods/v1.2-ods-001-member-auth.xml" relativeToChangelogFile="true"/>
+</databaseChangeLog>

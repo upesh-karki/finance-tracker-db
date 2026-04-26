@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!-- Add auth fields to member table -->
+    <changeSet id="v1.2-ods-001-member-add-auth-fields" author="upesh.karki">
+        <addColumn schemaName="ods" tableName="member">
+            <column name="email_verified" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn schemaName="ods" tableName="member">
+            <column name="auth_provider" type="varchar(20)" defaultValue="LOCAL">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn schemaName="ods" tableName="member">
+            <column name="google_id" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+
+    <!-- OTP table -->
+    <changeSet id="v1.2-ods-002-create-otp" author="upesh.karki">
+        <createTable tableName="email_otp" schemaName="ods">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="member_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_ods_email_otp_member" references="ods.member(id)"/>
+            </column>
+            <column name="otp_code" type="varchar(6)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expires_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="used" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="now()"/>
+        </createTable>
+        <createIndex indexName="idx_ods_email_otp_member" tableName="email_otp" schemaName="ods">
+            <column name="member_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
