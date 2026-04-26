@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+    <!--
+        RELEASE v1.3 — ref.financial_institution, ref.transaction_type, institution_code on financial_account
+        Author: Upesh Karki  Date: 2026-04-26
+    -->
+    <include file="../../schema/tables/ref/v1.3-ref-001-financial-institution.xml" relativeToChangelogFile="true"/>
+    <include file="../../schema/tables/ref/v1.3-ref-002-transaction-type.xml"       relativeToChangelogFile="true"/>
+    <include file="../../schema/tables/ods/v1.3-ods-001-alter-financial-account.xml" relativeToChangelogFile="true"/>
+</databaseChangeLog>

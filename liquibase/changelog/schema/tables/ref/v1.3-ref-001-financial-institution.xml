@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="v1.3-ref-001-financial-institution" author="upesh.karki">
+        <createTable tableName="financial_institution" schemaName="ref">
+            <column name="code" type="varchar(30)"><constraints primaryKey="true" nullable="false"/></column>
+            <column name="name" type="varchar(100)"><constraints nullable="false"/></column>
+            <column name="country" type="varchar(10)" defaultValue="US"/>
+            <column name="is_active" type="boolean" defaultValueBoolean="true"><constraints nullable="false"/></column>
+        </createTable>
+        <insert schemaName="ref" tableName="financial_institution"><column name="code" value="CHASE"/><column name="name" value="Chase"/><column name="country" value="US"/></insert>
+        <insert schemaName="ref" tableName="financial_institution"><column name="code" value="BOFA"/><column name="name" value="Bank of America"/><column name="country" value="US"/></insert>
+        <insert schemaName="ref" tableName="financial_institution"><column name="code" value="WELLS_FARGO"/><column name="name" value="Wells Fargo"/><column name="country" value="US"/></insert>
+        <insert schemaName="ref" tableName="financial_institution"><column name="code" value="CITI"/><column name="name" value="Citi"/><column name="country" value="US"/></insert>
+        <insert schemaName="ref" tableName="financial_institution"><column name="code" value="DISCOVER"/><column name="name" value="Discover"/><column name="country" value="US"/></insert>
+        <insert schemaName="ref" tableName="financial_institution"><column name="code" value="CAPITAL_ONE"/><column name="name" value="Capital One"/><column name="country" value="US"/></insert>
+        <insert schemaName="ref" tableName="financial_institution"><column name="code" value="TD"/><column name="name" value="TD Bank"/><column name="country" value="US"/></insert>
+        <insert schemaName="ref" tableName="financial_institution"><column name="code" value="US_BANK"/><column name="name" value="U.S. Bank"/><column name="country" value="US"/></insert>
+        <insert schemaName="ref" tableName="financial_institution"><column name="code" value="PNC"/><column name="name" value="PNC Bank"/><column name="country" value="US"/></insert>
+        <insert schemaName="ref" tableName="financial_institution"><column name="code" value="RBC"/><column name="name" value="RBC Royal Bank"/><column name="country" value="CA"/></insert>
+        <insert schemaName="ref" tableName="financial_institution"><column name="code" value="TD_CA"/><column name="name" value="TD Canada Trust"/><column name="country" value="CA"/></insert>
+        <insert schemaName="ref" tableName="financial_institution"><column name="code" value="SCOTIABANK"/><column name="name" value="Scotiabank"/><column name="country" value="CA"/></insert>
+        <insert schemaName="ref" tableName="financial_institution"><column name="code" value="BMO"/><column name="name" value="BMO Bank of Montreal"/><column name="country" value="CA"/></insert>
+        <insert schemaName="ref" tableName="financial_institution"><column name="code" value="CIBC"/><column name="name" value="CIBC"/><column name="country" value="CA"/></insert>
+        <insert schemaName="ref" tableName="financial_institution"><column name="code" value="OTHER"/><column name="name" value="Other"/><column name="country" value=""/></insert>
+    </changeSet>
+</databaseChangeLog>

@@ -22,4 +22,7 @@
     <!-- Release 1.2 — Auth fields + OTP table -->
     <include file="releases/v1.2/release-changelog.xml" relativeToChangelogFile="true"/>
 
+    <!-- Release 1.3 — financial_institution ref, transaction_type ref, institution_code on account -->
+    <include file="releases/v1.3/release-changelog.xml" relativeToChangelogFile="true"/>
+
 </databaseChangeLog>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="v1.3-ref-002-transaction-type" author="upesh.karki">
+        <createTable tableName="transaction_type" schemaName="ref">
+            <column name="code" type="varchar(20)"><constraints primaryKey="true" nullable="false"/></column>
+            <column name="label" type="varchar(50)"><constraints nullable="false"/></column>
+            <column name="description" type="varchar(255)"/>
+        </createTable>
+        <insert schemaName="ref" tableName="transaction_type"><column name="code" value="EXPENSE"/><column name="label" value="Expense"/><column name="description" value="Money spent on goods or services"/></insert>
+        <insert schemaName="ref" tableName="transaction_type"><column name="code" value="INCOME"/><column name="label" value="Income"/><column name="description" value="Money received"/></insert>
+        <insert schemaName="ref" tableName="transaction_type"><column name="code" value="INVESTMENT"/><column name="label" value="Investment"/><column name="description" value="Money moved to investment accounts"/></insert>
+        <insert schemaName="ref" tableName="transaction_type"><column name="code" value="TRANSFER"/><column name="label" value="Transfer"/><column name="description" value="Internal transfer between own accounts"/></insert>
+        <insert schemaName="ref" tableName="transaction_type"><column name="code" value="CC_PAYMENT"/><column name="label" value="Credit Card Payment"/><column name="description" value="Payment made to a credit card"/></insert>
+    </changeSet>
+</databaseChangeLog>
