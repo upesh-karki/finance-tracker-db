@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="v1.1-ref-002-account-type" author="upesh.karki">
+        <createTable tableName="account_type" schemaName="ref">
+            <column name="code" type="varchar(30)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="label" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_credit_account" type="boolean" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert schemaName="ref" tableName="account_type">
+            <column name="code" value="CHEQUING"/>
+            <column name="label" value="Chequing Account"/>
+            <column name="is_credit_account" valueBoolean="false"/>
+            <column name="is_active" valueBoolean="true"/>
+        </insert>
+        <insert schemaName="ref" tableName="account_type">
+            <column name="code" value="SAVINGS"/>
+            <column name="label" value="Savings Account"/>
+            <column name="is_credit_account" valueBoolean="false"/>
+            <column name="is_active" valueBoolean="true"/>
+        </insert>
+        <insert schemaName="ref" tableName="account_type">
+            <column name="code" value="CREDIT_CARD"/>
+            <column name="label" value="Credit Card"/>
+            <column name="is_credit_account" valueBoolean="true"/>
+            <column name="is_active" valueBoolean="true"/>
+        </insert>
+        <insert schemaName="ref" tableName="account_type">
+            <column name="code" value="INVESTMENT"/>
+            <column name="label" value="Investment Account"/>
+            <column name="is_credit_account" valueBoolean="false"/>
+            <column name="is_active" valueBoolean="true"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

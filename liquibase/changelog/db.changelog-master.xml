@@ -16,7 +16,7 @@
     <!-- Release 1.0 — Initial schema -->
     <include file="releases/v1.0/release-changelog.xml" relativeToChangelogFile="true"/>
 
-    <!-- Release 1.1 — Add here when ready -->
-    <!-- <include file="releases/v1.1/release-changelog.xml" relativeToChangelogFile="true"/> -->
+    <!-- Release 1.1 — Accounts, Income, Statement Tracking -->
+    <include file="releases/v1.1/release-changelog.xml" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="v1.1-ref-001-income-category" author="upesh.karki">
+        <createTable tableName="income_category" schemaName="ref">
+            <column name="code" type="varchar(30)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="label" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(255)"/>
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <insert schemaName="ref" tableName="income_category">
+            <column name="code" value="SALARY"/>
+            <column name="label" value="Salary"/>
+            <column name="description" value="Regular employment income"/>
+            <column name="is_active" valueBoolean="true"/>
+        </insert>
+        <insert schemaName="ref" tableName="income_category">
+            <column name="code" value="FREELANCE"/>
+            <column name="label" value="Freelance"/>
+            <column name="description" value="Self-employment or contract income"/>
+            <column name="is_active" valueBoolean="true"/>
+        </insert>
+        <insert schemaName="ref" tableName="income_category">
+            <column name="code" value="REFUND"/>
+            <column name="label" value="Refund"/>
+            <column name="description" value="Refunds and reimbursements"/>
+            <column name="is_active" valueBoolean="true"/>
+        </insert>
+        <insert schemaName="ref" tableName="income_category">
+            <column name="code" value="TRANSFER"/>
+            <column name="label" value="Transfer"/>
+            <column name="description" value="Incoming bank transfers"/>
+            <column name="is_active" valueBoolean="true"/>
+        </insert>
+        <insert schemaName="ref" tableName="income_category">
+            <column name="code" value="OTHER"/>
+            <column name="label" value="Other"/>
+            <column name="description" value="Other income"/>
+            <column name="is_active" valueBoolean="true"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

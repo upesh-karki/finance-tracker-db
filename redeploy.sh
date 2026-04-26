@@ -1,12 +1,15 @@
 #!/bin/bash
-# ============================================================
-# finance-tracker redeploy script
+# =============================================================
+# Finance Tracker — Redeploy Script
+# Restarts services using pre-built images (run build.sh first)
+#
 # Usage:
-#   ./redeploy.sh          — rebuild & restart everything
-#   ./redeploy.sh api      — rebuild & restart API only
-#   ./redeploy.sh frontend — rebuild & restart frontend only
-#   ./redeploy.sh db       — restart DB + pgAdmin only
-# ============================================================
+#   ./redeploy.sh           — restart everything
+#   ./redeploy.sh api       — restart API only
+#   ./redeploy.sh frontend  — restart frontend only
+#   ./redeploy.sh db        — restart DB + pgAdmin only
+#   ./redeploy.sh all       — restart all services
+# =============================================================
 
 set -e
 
@@ -26,17 +29,26 @@ err()  { echo -e "${RED}[✗]${NC} $1"; exit 1; }
 
 cd "$COMPOSE_DIR"
 
+# Show which image versions are being deployed
+show_versions() {
+  local api_version frontend_version
+  api_version=$(docker inspect finance-tracker-api:latest --format '{{index .Config.Labels "build.version"}}' 2>/dev/null || echo "unknown")
+  frontend_version=$(docker inspect finance-tracker-frontend:latest --format '{{index .Config.Labels "build.version"}}' 2>/dev/null || echo "unknown")
+  log "API image version:      ${api_version}"
+  log "Frontend image version: ${frontend_version}"
+}
+
 case "$TARGET" in
   api)
-    log "Rebuilding API..."
-    docker compose build --no-cache api
-    docker compose up -d --no-deps api
+    log "Redeploying API..."
+    show_versions
+    docker compose up -d --no-deps --pull never api
     ok "API redeployed → http://localhost:8080"
     ;;
   frontend)
-    log "Rebuilding frontend..."
-    docker compose build --no-cache frontend
-    docker compose up -d --no-deps frontend
+    log "Redeploying frontend..."
+    show_versions
+    docker compose up -d --no-deps --pull never frontend
     ok "Frontend redeployed → http://localhost:3000"
     ;;
   db)
@@ -46,15 +58,15 @@ case "$TARGET" in
     ok "pgAdmin  → http://localhost:5050"
     ;;
   all)
-    log "Rebuilding and restarting all services..."
-    docker compose build --no-cache
-    docker compose up -d
+    log "Redeploying all services..."
+    show_versions
+    docker compose up -d --pull never
     log "Waiting for services to be healthy..."
     sleep 10
     echo ""
     ok "Postgres  → localhost:5432"
-    ok "pgAdmin   → http://localhost:5050  (admin@finance.local / admin123)"
-    ok "API       → http://localhost:8080/api/v1/members"
+    ok "pgAdmin   → http://localhost:5050  (admin@finance.local)"
+    ok "API       → http://localhost:8080"
     ok "Frontend  → http://localhost:3000"
     echo ""
     log "Tailing API logs (Ctrl+C to stop)..."

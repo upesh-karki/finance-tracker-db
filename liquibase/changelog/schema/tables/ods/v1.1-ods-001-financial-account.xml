@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="v1.1-ods-001-financial-account" author="upesh.karki">
+        <createTable tableName="financial_account" schemaName="ods">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="member_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_ods_financial_account_member" references="ods.member(id)"/>
+            </column>
+            <column name="nickname" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="institution_name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_type_code" type="varchar(30)">
+                <constraints nullable="false" foreignKeyName="fk_ods_financial_account_type" references="ref.account_type(code)"/>
+            </column>
+            <column name="opened_date" type="date"/>
+            <column name="tracking_start_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_active" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="now()"/>
+            <column name="updated_at" type="timestamp" defaultValueComputed="now()"/>
+        </createTable>
+
+        <createIndex indexName="idx_ods_financial_account_member" tableName="financial_account" schemaName="ods">
+            <column name="member_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="v1.1-ods-003-income" author="upesh.karki">
+        <createTable tableName="income" schemaName="ods">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="member_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_ods_income_member" references="ods.member(id)"/>
+            </column>
+            <column name="account_id" type="bigint">
+                <constraints foreignKeyName="fk_ods_income_account" references="ods.financial_account(id)"/>
+            </column>
+            <column name="statement_id" type="bigint">
+                <constraints foreignKeyName="fk_ods_income_statement" references="ods.account_statement(id)"/>
+            </column>
+            <column name="source_name" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="numeric(12,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="income_category_code" type="varchar(30)">
+                <constraints nullable="false" foreignKeyName="fk_ods_income_category" references="ref.income_category(code)"/>
+            </column>
+            <column name="income_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(500)"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="now()"/>
+        </createTable>
+
+        <createIndex indexName="idx_ods_income_member" tableName="income" schemaName="ods">
+            <column name="member_id"/>
+        </createIndex>
+        <createIndex indexName="idx_ods_income_account" tableName="income" schemaName="ods">
+            <column name="account_id"/>
+        </createIndex>
+        <createIndex indexName="idx_ods_income_date" tableName="income" schemaName="ods">
+            <column name="income_date"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

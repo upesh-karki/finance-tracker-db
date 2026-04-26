@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="v1.1-ods-002-account-statement" author="upesh.karki">
+        <createTable tableName="account_statement" schemaName="ods">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="account_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_ods_account_statement_account" references="ods.financial_account(id)"/>
+            </column>
+            <column name="statement_year" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="statement_month" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)" defaultValue="PENDING">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_name" type="varchar(255)"/>
+            <column name="transaction_count" type="int" defaultValueNumeric="0"/>
+            <column name="uploaded_at" type="timestamp"/>
+            <column name="created_at" type="timestamp" defaultValueComputed="now()"/>
+        </createTable>
+
+        <addUniqueConstraint
+            schemaName="ods"
+            tableName="account_statement"
+            columnNames="account_id, statement_year, statement_month"
+            constraintName="uq_ods_account_statement_month"/>
+
+        <createIndex indexName="idx_ods_account_statement_account" tableName="account_statement" schemaName="ods">
+            <column name="account_id"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

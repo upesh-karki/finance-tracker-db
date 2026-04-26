@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        RELEASE v1.1 CHANGELOG
+        ======================
+        Finance Tracker — Accounts, Income, Statement Tracking
+        Author : Upesh Karki
+        Date   : 2026-04-26
+
+        Changes:
+          - ref.income_category   — income category reference data
+          - ref.account_type      — account type reference data
+          - ods.financial_account — user financial accounts
+          - ods.account_statement — statement upload tracking per account/month
+          - ods.income            — income records
+          - ods.expense           — added account_id, statement_id, transaction_type columns
+    -->
+
+    <!-- REF tables -->
+    <include file="../../schema/tables/ref/v1.1-ref-001-income-category.xml"              relativeToChangelogFile="true"/>
+    <include file="../../schema/tables/ref/v1.1-ref-002-account-type.xml"                 relativeToChangelogFile="true"/>
+
+    <!-- ODS tables (parent before child) -->
+    <include file="../../schema/tables/ods/v1.1-ods-001-financial-account.xml"            relativeToChangelogFile="true"/>
+    <include file="../../schema/tables/ods/v1.1-ods-002-account-statement.xml"            relativeToChangelogFile="true"/>
+    <include file="../../schema/tables/ods/v1.1-ods-003-income.xml"                       relativeToChangelogFile="true"/>
+    <include file="../../schema/tables/ods/v1.1-ods-004-alter-expense.xml"                relativeToChangelogFile="true"/>
+
+</databaseChangeLog>
