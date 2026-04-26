@@ -4,11 +4,13 @@
 # Restarts services using pre-built images (run build.sh first)
 #
 # Usage:
-#   ./redeploy.sh           — restart everything
+#   ./redeploy.sh           — restart everything + tail logs
 #   ./redeploy.sh api       — restart API only
 #   ./redeploy.sh frontend  — restart frontend only
 #   ./redeploy.sh db        — restart DB + pgAdmin only
-#   ./redeploy.sh all       — restart all services
+#   ./redeploy.sh all       — restart all services + tail logs
+#   ./redeploy.sh logs      — tail logs from all services
+#   ./redeploy.sh logs api  — tail logs from API only
 # =============================================================
 
 set -e
@@ -56,6 +58,15 @@ case "$TARGET" in
     docker compose up -d postgres pgadmin
     ok "Postgres → localhost:5432"
     ok "pgAdmin  → http://localhost:5050"
+    ;;
+  logs)
+    SERVICE="${2:-}"
+    log "Streaming logs${SERVICE:+ for $SERVICE} (Ctrl+C to stop)..."
+    if [ -n "$SERVICE" ]; then
+      docker compose logs -f --tail=50 "$SERVICE"
+    else
+      docker compose logs -f --tail=50
+    fi
     ;;
   all)
     log "Redeploying all services..."
