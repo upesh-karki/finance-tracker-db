@@ -5,13 +5,18 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
 
-    <!-- expense depends on financial_account and account_statement, so it comes after them -->
     <changeSet id="ods-v1.0-ddl-expense" author="upesh.karki">
         <sqlFile path="../ddl/expense.sql"
                  relativeToChangelogFile="true"
                  splitStatements="false"
                  stripComments="false"/>
         <rollback>DROP TABLE IF EXISTS ods.expense CASCADE;</rollback>
+    </changeSet>
+
+    <!-- v1.1: adds institution_name — tracks which bank this transaction came from -->
+    <changeSet id="ods-v1.1-ddl-expense-add-institution-name" author="upesh.karki">
+        <sql>ALTER TABLE ods.expense ADD COLUMN IF NOT EXISTS institution_name VARCHAR(100);</sql>
+        <rollback>ALTER TABLE ods.expense DROP COLUMN IF EXISTS institution_name;</rollback>
     </changeSet>
 
 </databaseChangeLog>

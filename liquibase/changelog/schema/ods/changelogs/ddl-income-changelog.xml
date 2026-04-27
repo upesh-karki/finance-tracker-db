@@ -13,4 +13,10 @@
         <rollback>DROP TABLE IF EXISTS ods.income CASCADE;</rollback>
     </changeSet>
 
+    <!-- v1.1: adds institution_name — tracks which bank this income came from -->
+    <changeSet id="ods-v1.1-ddl-income-add-institution-name" author="upesh.karki">
+        <sql>ALTER TABLE ods.income ADD COLUMN IF NOT EXISTS institution_name VARCHAR(100);</sql>
+        <rollback>ALTER TABLE ods.income DROP COLUMN IF EXISTS institution_name;</rollback>
+    </changeSet>
+
 </databaseChangeLog>
