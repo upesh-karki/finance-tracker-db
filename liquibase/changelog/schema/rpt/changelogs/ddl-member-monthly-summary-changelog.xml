@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+    <changeSet id="rpt-v1.0-ddl-member-monthly-summary" author="upesh.karki">
+        <sqlFile path="../ddl/member_monthly_summary.sql" relativeToChangelogFile="true" splitStatements="false" stripComments="false"/>
+        <rollback>DROP TABLE IF EXISTS rpt.member_monthly_summary CASCADE;</rollback>
+    </changeSet>
+</databaseChangeLog>

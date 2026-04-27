@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        MASTER CHANGELOG: ods schema
+        ============================
+        Includes all ODS changelogs in dependency order.
+        Rules:
+          - Parent tables before child tables (FK order)
+          - DDL (tables/alters) before DML and indexes
+          - Functions and views last (depend on tables)
+          - Each changelog references a SQL file in ddl/, dml/, functions/, views/, indexes/
+          - For DDL changes: bump changeSet id in the changelog file (e.g. ods-v1.0 → ods-v1.1)
+          - For functions/views: use runOnChange=true — id stays the same
+    -->
+
+    <!-- Tables — parent before child -->
+    <include file="changelogs/ddl-member-changelog.xml"             relativeToChangelogFile="true"/>
+    <include file="changelogs/ddl-member-detail-changelog.xml"      relativeToChangelogFile="true"/>
+    <include file="changelogs/ddl-savings-goal-changelog.xml"       relativeToChangelogFile="true"/>
+    <include file="changelogs/ddl-financial-account-changelog.xml"  relativeToChangelogFile="true"/>
+    <include file="changelogs/ddl-account-statement-changelog.xml"  relativeToChangelogFile="true"/>
+    <include file="changelogs/ddl-expense-changelog.xml"            relativeToChangelogFile="true"/>
+    <include file="changelogs/ddl-income-changelog.xml"             relativeToChangelogFile="true"/>
+
+    <!-- Alters -->
+    <include file="changelogs/ddl-alter-member-auth-changelog.xml"  relativeToChangelogFile="true"/>
+    <include file="changelogs/ddl-email-otp-changelog.xml"          relativeToChangelogFile="true"/>
+
+    <!-- Indexes -->
+    <include file="changelogs/ddl-indexes-changelog.xml"            relativeToChangelogFile="true"/>
+
+    <!-- Functions (runOnChange=true — re-applied on SQL edit) -->
+    <include file="changelogs/ddl-functions-changelog.xml"          relativeToChangelogFile="true"/>
+
+</databaseChangeLog>

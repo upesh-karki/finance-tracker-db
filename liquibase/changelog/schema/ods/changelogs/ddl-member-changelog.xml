@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        CHANGELOG: ddl-member-changelog.xml
+        OBJECT:    ods.member
+        RULE: If member.sql is edited, bump the changeSet id (e.g. ods-v1.0 → ods-v1.1).
+    -->
+
+    <changeSet id="ods-v1.0-ddl-member" author="upesh.karki">
+        <sqlFile path="../ddl/member.sql"
+                 relativeToChangelogFile="true"
+                 splitStatements="false"
+                 stripComments="false"/>
+        <rollback>DROP TABLE IF EXISTS ods.member CASCADE;</rollback>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="ods-v1.0-ddl-account-statement" author="upesh.karki">
+        <sqlFile path="../ddl/account_statement.sql"
+                 relativeToChangelogFile="true"
+                 splitStatements="false"
+                 stripComments="false"/>
+        <rollback>DROP TABLE IF EXISTS ods.account_statement CASCADE;</rollback>
+    </changeSet>
+
+    <!-- v1.1: adds member_id to existing installs (was missing from original schema) -->
+    <changeSet id="ods-v1.1-ddl-account-statement-add-member-id" author="upesh.karki">
+        <sql>ALTER TABLE ods.account_statement ADD COLUMN IF NOT EXISTS member_id BIGINT;</sql>
+        <rollback>ALTER TABLE ods.account_statement DROP COLUMN IF EXISTS member_id;</rollback>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        MASTER CHANGELOG: ref schema
+        ============================
+        All REF changelogs in order. REF tables have no cross-schema FK dependencies
+        on ODS — ODS depends on REF, not the other way around.
+        DDL (tables) → DML (seed data) → Views
+    -->
+
+    <!-- Tables -->
+    <include file="changelogs/ddl-expense-category-changelog.xml"      relativeToChangelogFile="true"/>
+    <include file="changelogs/ddl-status-codes-changelog.xml"          relativeToChangelogFile="true"/>
+    <include file="changelogs/ddl-income-category-changelog.xml"       relativeToChangelogFile="true"/>
+    <include file="changelogs/ddl-account-type-changelog.xml"          relativeToChangelogFile="true"/>
+    <include file="changelogs/ddl-financial-institution-changelog.xml" relativeToChangelogFile="true"/>
+    <include file="changelogs/ddl-transaction-type-changelog.xml"      relativeToChangelogFile="true"/>
+
+    <!-- Seed data (runOnChange=true in changelog file) -->
+    <include file="changelogs/dml-seed-data-changelog.xml"             relativeToChangelogFile="true"/>
+
+    <!-- Views (runOnChange=true) -->
+    <include file="changelogs/ddl-views-changelog.xml"                 relativeToChangelogFile="true"/>
+
+</databaseChangeLog>

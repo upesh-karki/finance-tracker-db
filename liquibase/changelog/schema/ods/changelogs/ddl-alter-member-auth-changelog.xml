@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="ods-v1.2-ddl-alter-member-auth-fields" author="upesh.karki">
+        <sqlFile path="../ddl/alter_member_auth_fields.sql"
+                 relativeToChangelogFile="true"
+                 splitStatements="false"
+                 stripComments="false"/>
+        <rollback>
+            ALTER TABLE ods.member
+                DROP COLUMN IF EXISTS email_verified,
+                DROP COLUMN IF EXISTS auth_provider,
+                DROP COLUMN IF EXISTS google_id;
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

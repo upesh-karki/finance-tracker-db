@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        FUNCTIONS use runOnChange="true":
+        Liquibase will re-execute the SQL whenever the file content changes.
+        No need to bump the changeSet id for function changes.
+        For tables/DDL you MUST bump the changeSet id.
+    -->
+
+    <changeSet id="ods-fn-001-get-member-monthly-total" author="upesh.karki" runOnChange="true">
+        <sqlFile path="../functions/fn_get_member_monthly_total.sql"
+                 relativeToChangelogFile="true"
+                 splitStatements="false"
+                 stripComments="false"/>
+        <rollback>DROP FUNCTION IF EXISTS ods.fn_get_member_monthly_total(BIGINT, INT, INT);</rollback>
+    </changeSet>
+
+    <changeSet id="ods-fn-002-get-member-savings-rate" author="upesh.karki" runOnChange="true">
+        <sqlFile path="../functions/fn_get_member_savings_rate.sql"
+                 relativeToChangelogFile="true"
+                 splitStatements="false"
+                 stripComments="false"/>
+        <rollback>DROP FUNCTION IF EXISTS ods.fn_get_member_savings_rate(BIGINT);</rollback>
+    </changeSet>
+
+    <changeSet id="ods-fn-003-get-category-summary" author="upesh.karki" runOnChange="true">
+        <sqlFile path="../functions/fn_get_category_summary.sql"
+                 relativeToChangelogFile="true"
+                 splitStatements="false"
+                 stripComments="false"/>
+        <rollback>DROP FUNCTION IF EXISTS ods.fn_get_category_summary(BIGINT);</rollback>
+    </changeSet>
+
+</databaseChangeLog>

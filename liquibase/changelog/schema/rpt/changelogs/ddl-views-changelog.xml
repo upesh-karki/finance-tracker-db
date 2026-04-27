@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+    <changeSet id="rpt-vw-001-member-expense-summary"    author="upesh.karki" runOnChange="true">
+        <sqlFile path="../views/vw_member_expense_summary.sql"    relativeToChangelogFile="true" splitStatements="false" stripComments="false"/>
+        <rollback>DROP VIEW IF EXISTS rpt.vw_member_expense_summary;</rollback>
+    </changeSet>
+    <changeSet id="rpt-vw-002-member-savings-overview"   author="upesh.karki" runOnChange="true">
+        <sqlFile path="../views/vw_member_savings_overview.sql"   relativeToChangelogFile="true" splitStatements="false" stripComments="false"/>
+        <rollback>DROP VIEW IF EXISTS rpt.vw_member_savings_overview;</rollback>
+    </changeSet>
+    <changeSet id="rpt-vw-003-expense-category-breakdown" author="upesh.karki" runOnChange="true">
+        <sqlFile path="../views/vw_expense_category_breakdown.sql" relativeToChangelogFile="true" splitStatements="false" stripComments="false"/>
+        <rollback>DROP VIEW IF EXISTS rpt.vw_expense_category_breakdown;</rollback>
+    </changeSet>
+</databaseChangeLog>

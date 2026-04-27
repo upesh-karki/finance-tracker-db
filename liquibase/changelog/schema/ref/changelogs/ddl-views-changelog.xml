@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+    <changeSet id="ref-vw-001-expense-categories-active" author="upesh.karki" runOnChange="true">
+        <sqlFile path="../ddl/vw_expense_categories_active.sql" relativeToChangelogFile="true" splitStatements="false" stripComments="false"/>
+        <rollback>DROP VIEW IF EXISTS ref.vw_expense_categories_active;</rollback>
+    </changeSet>
+</databaseChangeLog>

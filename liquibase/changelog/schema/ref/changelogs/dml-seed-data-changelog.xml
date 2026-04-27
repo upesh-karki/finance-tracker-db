@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        RULE for seed data: DML changesets use runOnChange="true" so new rows can be added
+        to the SQL file. But changing existing rows requires a new changeSet id — Liquibase
+        will detect the MD5 change and throw an error otherwise.
+    -->
+
+    <changeSet id="ref-v1.0-dml-seed-expense-category" author="upesh.karki" runOnChange="true">
+        <sqlFile path="../dml/seed_expense_category.sql" relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+        <rollback>DELETE FROM ref.expense_category;</rollback>
+    </changeSet>
+
+    <changeSet id="ref-v1.0-dml-seed-status-codes" author="upesh.karki" runOnChange="true">
+        <sqlFile path="../dml/seed_status_codes.sql" relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+        <rollback>DELETE FROM ref.status_codes;</rollback>
+    </changeSet>
+
+    <changeSet id="ref-v1.0-dml-seed-income-category" author="upesh.karki" runOnChange="true">
+        <sqlFile path="../dml/seed_income_category.sql" relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+        <rollback>DELETE FROM ref.income_category;</rollback>
+    </changeSet>
+
+    <changeSet id="ref-v1.0-dml-seed-account-type" author="upesh.karki" runOnChange="true">
+        <sqlFile path="../dml/seed_account_type.sql" relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+        <rollback>DELETE FROM ref.account_type;</rollback>
+    </changeSet>
+
+    <changeSet id="ref-v1.0-dml-seed-financial-institution" author="upesh.karki" runOnChange="true">
+        <sqlFile path="../dml/seed_financial_institution.sql" relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+        <rollback>DELETE FROM ref.financial_institution;</rollback>
+    </changeSet>
+
+    <changeSet id="ref-v1.0-dml-seed-transaction-type" author="upesh.karki" runOnChange="true">
+        <sqlFile path="../dml/seed_transaction_type.sql" relativeToChangelogFile="true" splitStatements="true" stripComments="true"/>
+        <rollback>DELETE FROM ref.transaction_type;</rollback>
+    </changeSet>
+
+</databaseChangeLog>

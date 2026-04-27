@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <!--
+        CHANGELOG: ddl-changelog-audit-changelog.xml
+        OBJECT:    dbutils.changelog_audit
+        DESC:      Creates the dbutils schema and the Liquibase audit table.
+                   Liquibase is configured (liquibase.properties) to write its
+                   own DATABASECHANGELOG entries to this table so every deployment
+                   is recorded automatically.
+
+        RULE: If you edit changelog_audit.sql, bump the changeSet id (e.g. v1.0 → v1.1).
+              Liquibase will detect the MD5 change and throw an error — that is intentional.
+    -->
+
+    <changeSet id="dbutils-v1.0-ddl-changelog-audit" author="upesh.karki">
+        <sqlFile path="../ddl/changelog_audit.sql"
+                 relativeToChangelogFile="true"
+                 splitStatements="false"
+                 stripComments="false"/>
+        <rollback>
+            DROP TABLE IF EXISTS dbutils.changelog_audit;
+            DROP SCHEMA IF EXISTS dbutils;
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
